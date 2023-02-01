@@ -1,44 +1,46 @@
-desk = list(map(str, range(1, 10)))
+import random
+from view import *
 
-def  desk_redraw():
-    print('*' * 20)
-    for i in range(3):
-        for j in range(3):
-            print(f"{desk[i * 3 + j]:^5}", end=" ")
-        print(f"\n{'*' * 20}")
-    print()
+def winner_check(board):
+    winner = ""
 
-def put_figure_on_desk(cur_figure):
-    global desk
-    while True:
-        cur_str = input(f"Введите число 1 to 9.\nВыберите позицию {cur_figure}? ")
-        if cur_str.isdigit() and int(cur_str) in range(1, 10):
-            cur_pos = int(cur_str)
-            pos = desk[cur_pos - 1]
-            if pos not in (chr(10060), chr(11093)):
-                desk[cur_pos - 1] = chr(10060) if cur_figure == "X" else chr(11093)
-                break
-            else:
-                print(f"Ячейка уже занята{chr(9995)}{chr(129292)}")
-        else:
-            print(f"Неверный ввод{chr(9940)}. Введите допустимое число.") 
+    if board[0] == board[1] == board[2]: winner = board[0]
+    elif board[3] == board[4] == board[5]: winner = board[3]
+    elif board[6] == board[7] == board[8]: winner = board[6]
 
-def define_winner():
-    win_coord = ((0, 1, 2), (3, 4, 5), (6, 7, 8), (0, 3, 6), (1, 4, 7), (2, 5, 8), (0, 4, 8), (2, 4, 6))
-    n = [desk[x[0]] for x in win_coord if desk[x[0]] == desk[x[1]] == desk[x[2]]]
-    return n[0] if n else n
+    if board[0] == board[3] == board[6]: winner = board[0]
+    elif board[1] == board[4] == board[7]: winner = board[1]
+    elif board[2] == board[5] == board[8]: winner = board[2]
 
-def run_tic_tac_toe():
-    i = 0
-    desk_redraw()
-    while True:
-        put_figure_on_desk("0") if i % 2 else put_figure_on_desk("X")
-        desk_redraw()
-        if i > 3:
-            if define_winner():
-                print(f"{define_winner()} - Вы победили!")
-                break
-            if i == 8:
-                print(f"Ничья!")
-                break
-            i += 1
+    if board[0] == board[4] == board[8]: winner = board[0]
+    elif board[2] == board[4] == board[6]: winner = board[2]
+    return winner
+
+def man_turn(board, choose: int):
+    clean_list = ([x for x in board if x.isdigit()])
+    if choose not in clean_list:
+        return board
+    for num, x in enumerate(board):
+        if x == choose:
+            board[num] = "O"
+    return board
+
+def bot_turn(board):
+    clean_list = ([x for x in board if x.isdigit()])
+    choose = random.choice(list(map(int, clean_list)))
+    for num, x in enumerate(board):
+        board[choose-1] = "X"
+    return board
+
+
+def game():
+    board = \
+    [
+    "1", "2", "3",
+    "4", "5", "6",
+    "7", "8", "9"
+    ]
+    return board
+
+
+
