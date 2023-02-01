@@ -1,4 +1,4 @@
-desk = list(map(strm range (1, 10)))
+desk = list(map(str, range(1, 10)))
 
 def  desk_redraw():
     print('*' * 20)
